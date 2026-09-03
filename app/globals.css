@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+@theme {
+  /* Fonts */
+  --font-playfair: var(--font-playfair), serif;
+  --font-jost: var(--font-jost), sans-serif;
+
+  /* Nivora brand colors */
+  --color-espresso: #1a1512;
+  --color-cream: #efe6d8;
+  --color-gold: #c6a15b;
+  --color-bronze: #a9803f;
+  --color-offwhite: #f5f1ea;
+  --color-charcoal: #2b2620;
+  --color-warmgrey: #9c8f7c;
+  --color-sage: #7c8468;
+}
