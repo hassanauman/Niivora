@@ -12,7 +12,7 @@ type NavbarProps = {
   isFounder: boolean;
 };
 
-const BRAND_NAME = "Nivora";
+const BRAND_NAME = "Niivora";
 
 const NAV_LINKS = [
   { label: "Home", href: "/" },
