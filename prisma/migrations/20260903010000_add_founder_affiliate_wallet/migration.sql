@@ -1,3 +1,6 @@
+CREATE TYPE "CoinTransactionType" AS ENUM ('AFFILIATE_EARNING', 'PURCHASE', 'WITHDRAWAL', 'WITHDRAWAL_REFUND', 'ADMIN_ADJUSTMENT');
+CREATE TYPE "WithdrawalStatus" AS ENUM ('PENDING', 'COMPLETED', 'REJECTED');
+
 ALTER TABLE "User"
   ADD COLUMN "founderCode" TEXT,
   ADD COLUMN "affiliateCommission" DECIMAL(5,2) NOT NULL DEFAULT 10.00;
@@ -49,5 +52,4 @@ CREATE INDEX "Withdrawal_userId_idx" ON "Withdrawal"("userId");
 CREATE INDEX "Withdrawal_status_idx" ON "Withdrawal"("status");
 CREATE INDEX "Withdrawal_createdAt_idx" ON "Withdrawal"("createdAt");
 ALTER TABLE "Withdrawal" ADD CONSTRAINT "Withdrawal_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
 ALTER TABLE "CoinTransaction" ADD CONSTRAINT "CoinTransaction_withdrawalId_fkey" FOREIGN KEY ("withdrawalId") REFERENCES "Withdrawal"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
