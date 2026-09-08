@@ -51,5 +51,6 @@ CREATE TABLE "Withdrawal" (
 CREATE INDEX "Withdrawal_userId_idx" ON "Withdrawal"("userId");
 CREATE INDEX "Withdrawal_status_idx" ON "Withdrawal"("status");
 CREATE INDEX "Withdrawal_createdAt_idx" ON "Withdrawal"("createdAt");
+CREATE UNIQUE INDEX "Withdrawal_one_pending_per_user_key" ON "Withdrawal"("userId") WHERE "status" = 'PENDING';
 ALTER TABLE "Withdrawal" ADD CONSTRAINT "Withdrawal_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 ALTER TABLE "CoinTransaction" ADD CONSTRAINT "CoinTransaction_withdrawalId_fkey" FOREIGN KEY ("withdrawalId") REFERENCES "Withdrawal"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
