@@ -22,6 +22,7 @@ model User {
   updatedAt           DateTime            @updatedAt
   accounts            Account[]
   orders              Order[]
+  referredOrders      Order[]             @relation("FounderReferrals")
   sessions            Session[]
   coinTransactions    CoinTransaction[]
   withdrawals         Withdrawal[]
@@ -91,30 +92,30 @@ model ProductVariant {
 }
 
 model Order {
-  id                   String        @id @default(cuid())
-  userId               String
-  status               OrderStatus   @default(PENDING)
-  paymentStatus        PaymentStatus @default(PENDING)
-  subtotal             Decimal       @db.Decimal(10, 2)
-  shippingCost         Decimal       @db.Decimal(10, 2)
-  discount             Decimal       @db.Decimal(10, 2)
-  total                Decimal       @db.Decimal(10, 2)
-  customerName         String
-  customerEmail        String
-  shippingAddress      String
-  shippingCity         String
-  shippingPostalCode   String?
-  paymentMethod        String?
-  founderCodeUsed      String?
-  referredFounderId    String?
-  affiliateCommission  Decimal?      @db.Decimal(10, 2)
-  affiliateCreditedAt  DateTime?
-  createdAt            DateTime      @default(now())
-  updatedAt            DateTime      @updatedAt
-  user                 User          @relation(fields: [userId], references: [id])
-  referredFounder      User?         @relation("FounderReferrals", fields: [referredFounderId], references: [id], onDelete: Restrict)
-  items                OrderItem[]
-  coinTransactions     CoinTransaction[]
+  id                  String        @id @default(cuid())
+  userId              String
+  status              OrderStatus   @default(PENDING)
+  paymentStatus       PaymentStatus @default(PENDING)
+  subtotal            Decimal       @db.Decimal(10, 2)
+  shippingCost        Decimal       @db.Decimal(10, 2)
+  discount            Decimal       @db.Decimal(10, 2)
+  total               Decimal       @db.Decimal(10, 2)
+  customerName        String
+  customerEmail       String
+  shippingAddress     String
+  shippingCity        String
+  shippingPostalCode  String?
+  paymentMethod       String?
+  founderCodeUsed     String?
+  referredFounderId   String?
+  affiliateCommission Decimal?      @db.Decimal(10, 2)
+  affiliateCreditedAt DateTime?
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  user                User          @relation(fields: [userId], references: [id])
+  referredFounder     User?         @relation("FounderReferrals", fields: [referredFounderId], references: [id], onDelete: Restrict)
+  items               OrderItem[]
+  coinTransactions    CoinTransaction[]
 
   @@index([userId])
   @@index([status])
@@ -142,17 +143,17 @@ model OrderItem {
 }
 
 model CoinTransaction {
-  id           String                 @id @default(cuid())
+  id           String              @id @default(cuid())
   userId       String
-  type         CoinTransactionType    
-  amount       Decimal                @db.Decimal(10, 2)
+  type         CoinTransactionType
+  amount       Decimal             @db.Decimal(10, 2)
   description  String?
   orderId      String?
   withdrawalId String?
-  createdAt    DateTime               @default(now())
-  user         User                   @relation(fields: [userId], references: [id], onDelete: Restrict)
-  order        Order?                 @relation(fields: [orderId], references: [id], onDelete: Restrict)
-  withdrawal   Withdrawal?            @relation(fields: [withdrawalId], references: [id], onDelete: Restrict)
+  createdAt    DateTime            @default(now())
+  user         User                @relation(fields: [userId], references: [id], onDelete: Restrict)
+  order        Order?              @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  withdrawal   Withdrawal?         @relation(fields: [withdrawalId], references: [id], onDelete: Restrict)
 
   @@index([userId, createdAt])
   @@index([orderId])
@@ -161,16 +162,16 @@ model CoinTransaction {
 }
 
 model Withdrawal {
-  id              String           @id @default(cuid())
-  userId          String
-  amount          Decimal          @db.Decimal(10, 2)
-  bankName        String
-  accountNumber   String
-  status          WithdrawalStatus @default(PENDING)
-  adminNote       String?
-  createdAt       DateTime         @default(now())
-  completedAt     DateTime?
-  user            User             @relation(fields: [userId], references: [id], onDelete: Restrict)
+  id               String             @id @default(cuid())
+  userId           String
+  amount           Decimal            @db.Decimal(10, 2)
+  bankName         String
+  accountNumber    String
+  status           WithdrawalStatus   @default(PENDING)
+  adminNote        String?
+  createdAt        DateTime           @default(now())
+  completedAt      DateTime?
+  user             User               @relation(fields: [userId], references: [id], onDelete: Restrict)
   coinTransactions CoinTransaction[]
 
   @@index([userId])
