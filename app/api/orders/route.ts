@@ -55,7 +55,7 @@ export async function POST(request: Request) {
       for (const item of items) await tx.productVariant.update({ where: { id: item.variantId }, data: { stock: { decrement: item.quantity } } });
       if (paymentMethod === "COINS" && total > 0) await tx.coinTransaction.create({ data: { userId: session.user.id, amount: (-total).toFixed(2), type: "PURCHASE", description: `Purchase using Niivora Coins for order ${createdOrder.id}`, orderId: createdOrder.id } });
       return createdOrder;
-    });
+    }, { isolationLevel: "Serializable" });
     return NextResponse.json({ message: "Order created successfully.", orderId: result.id }, { status: 201 });
   } catch (error) {
     console.error("ORDER CREATION ERROR:", error);
