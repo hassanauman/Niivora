@@ -9,6 +9,20 @@ on:
 jobs:
   verify:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: niivora
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d niivora"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/niivora
       AUTH_SECRET: ci-only-secret
@@ -28,6 +42,8 @@ jobs:
         run: npx prisma validate --config prisma7.config.ts
       - name: Generate Prisma client
         run: npx prisma generate --config prisma7.config.ts
+      - name: Apply migrations to clean database
+        run: npx prisma migrate deploy --config prisma7.config.ts
       - name: TypeScript check
         run: npx tsc --noEmit
       - name: Production build
