@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     if (products.length !== new Set(productIds).size) return NextResponse.json({ error: "One or more products are unavailable." }, { status: 400 });
     const productMap = new Map(products.map(p => [p.id, p]));
     const referralCode = (await cookies()).get("niivora_referral")?.value?.trim().toUpperCase();
-    const referredFounder = referralCode ? await prisma.user.findFirst({ where: { founderCode: referralCode, customerType: "FOUNDER" }, select: { id: true, founderCode: true } }) : null;
+    const referredFounder = referralCode ? await prisma.user.findFirst({ where: { founderCode: referralCode, customerType: "FOUNDER" }, select: { id: true, founderCode: true, founderDiscount: true, affiliateCommission: true } }) : null;
     if (referredFounder?.id === session.user.id) return NextResponse.json({ error: "You cannot use your own founder referral code." }, { status: 400 });
 
     const result = await prisma.$transaction(async tx => {
@@ -44,14 +44,43 @@ export async function POST(request: Request) {
         subtotal += Number(variant.price) * item.quantity;
         return { productId: product.id, variantId: variant.id, variantName: variant.name, productName: product.name, productSlug: product.slug, price: variant.price, quantity: item.quantity };
       });
-      const discountPercentage = user.customerType === "FOUNDER" && user.founderDiscount ? Number(user.founderDiscount) : 0;
+
+      // A referral code belongs to a founder, so the founder's configured discount
+      // applies to the customer using that code. Without a referral, founders get
+      // their own normal founder discount.
+      const discountPercentage = referredFounder
+        ? Number(referredFounder.founderDiscount ?? 0)
+        : user.customerType === "FOUNDER" && user.founderDiscount
+          ? Number(user.founderDiscount)
+          : 0;
       const discount = subtotal * (discountPercentage / 100);
       const total = Math.max(0, subtotal - discount);
       if (paymentMethod === "COINS") {
         const balance = await tx.coinTransaction.aggregate({ where: { userId: session.user.id }, _sum: { amount: true } });
         if (Number(balance._sum.amount ?? 0) < total) throw new Error("Insufficient Niivora Coins.");
       }
-      const createdOrder = await tx.order.create({ data: { userId: session.user.id, status: "PENDING", paymentStatus: paymentMethod === "COINS" ? "PAID" : "PENDING", subtotal: subtotal.toFixed(2), shippingCost: "0.00", discount: discount.toFixed(2), total: total.toFixed(2), customerName, customerEmail, shippingAddress, shippingCity, shippingPostalCode: shippingPostalCode || null, paymentMethod, founderCodeUsed: referredFounder?.founderCode ?? null, referredFounderId: referredFounder?.id ?? null, affiliateCommission: null, items: { create: orderItems } }, include: { items: true } });
+      const createdOrder = await tx.order.create({
+        data: {
+          userId: session.user.id,
+          status: "PENDING",
+          paymentStatus: paymentMethod === "COINS" ? "PAID" : "PENDING",
+          subtotal: subtotal.toFixed(2),
+          shippingCost: "0.00",
+          discount: discount.toFixed(2),
+          total: total.toFixed(2),
+          customerName,
+          customerEmail,
+          shippingAddress,
+          shippingCity,
+          shippingPostalCode: shippingPostalCode || null,
+          paymentMethod,
+          founderCodeUsed: referredFounder?.founderCode ?? null,
+          referredFounderId: referredFounder?.id ?? null,
+          affiliateCommission: null,
+          items: { create: orderItems },
+        },
+        include: { items: true },
+      });
       for (const item of items) await tx.productVariant.update({ where: { id: item.variantId }, data: { stock: { decrement: item.quantity } } });
       if (paymentMethod === "COINS" && total > 0) await tx.coinTransaction.create({ data: { userId: session.user.id, amount: (-total).toFixed(2), type: "PURCHASE", description: `Purchase using Niivora Coins for order ${createdOrder.id}`, orderId: createdOrder.id } });
       return createdOrder;
