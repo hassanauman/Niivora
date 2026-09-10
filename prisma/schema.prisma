@@ -7,12 +7,44 @@ datasource db {
   provider = "postgresql"
 }
 
-enum Role { CUSTOMER ADMIN }
-enum CustomerType { NORMAL FOUNDER }
-enum OrderStatus { PENDING PROCESSING SHIPPED DELIVERED CANCELLED }
-enum PaymentStatus { PENDING PAID FAILED REFUNDED }
-enum CoinTransactionType { AFFILIATE_EARNING PURCHASE WITHDRAWAL WITHDRAWAL_REFUND ADMIN_ADJUSTMENT }
-enum WithdrawalStatus { PENDING COMPLETED REJECTED }
+enum Role {
+  CUSTOMER
+  ADMIN
+}
+
+enum CustomerType {
+  NORMAL
+  FOUNDER
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum CoinTransactionType {
+  AFFILIATE_EARNING
+  PURCHASE
+  WITHDRAWAL
+  WITHDRAWAL_REFUND
+  ADMIN_ADJUSTMENT
+}
+
+enum WithdrawalStatus {
+  PENDING
+  COMPLETED
+  REJECTED
+}
 
 model User {
   id                  String              @id @default(cuid())
