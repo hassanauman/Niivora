@@ -42,7 +42,7 @@ export async function PATCH(request: Request, { params }: RouteContext) {
 
       const nextStatus = status ?? existingOrder.status;
       if (nextStatus === "DELIVERED" && existingOrder.status !== "DELIVERED" && existingOrder.referredFounderId && !existingOrder.affiliateCreditedAt) {
-        const founder = await tx.user.findUnique({ where: { id: existingOrder.referredFounderId }, select: { customerType: true, affiliateCommission: true } });
+        const founder = await tx.user.findUnique({ where: { id: existingOrder.referredFounderId }, select: { id: true, customerType: true, affiliateCommission: true } });
         if (founder?.customerType === "FOUNDER") {
           const commission = Number(existingOrder.total) * (Number(founder.affiliateCommission) / 100);
           if (commission > 0) {
