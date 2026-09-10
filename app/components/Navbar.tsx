@@ -5,13 +5,13 @@ import { Menu, ShoppingBag, UserRound, X } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { useCart } from "@/app/context/CartContext";
 
-type NavbarProps = { isAuthenticated: boolean; isAdmin: boolean; isFounder: boolean };
+type NavbarProps = { isAuthenticated?: boolean; isAdmin?: boolean; isFounder?: boolean };
 const BRAND_NAME = "Niivora";
 const NAV_LINKS = [
   { label: "Home", href: "/" }, { label: "Our Story", href: "/#our-story" }, { label: "Shop", href: "/products" },
   { label: "Ingredients", href: "/#ingredients" }, { label: "Reviews", href: "/#reviews" }, { label: "Journal", href: "/#journal" },
 ];
-export default function Navbar({ isAuthenticated, isAdmin, isFounder }: NavbarProps) {
+export default function Navbar({ isAuthenticated = false, isAdmin = false, isFounder = false }: NavbarProps) {
   const [isOpen,setIsOpen]=useState(false); const [isProfileOpen,setIsProfileOpen]=useState(false); const profileRef=useRef<HTMLLIElement>(null); const {items}=useCart();
   const cartCount=items.reduce((total,item)=>total+item.quantity,0);
   useEffect(()=>{const f=()=>window.innerWidth>1024&&setIsOpen(false);window.addEventListener("resize",f);return()=>window.removeEventListener("resize",f)},[]);
