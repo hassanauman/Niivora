@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Tag, Check, X } from "lucide-react";
 import { useCart } from "@/app/context/CartContext";
-import StoreNavbar from "@/app/components/StoreNavbar";
+import Navbar from "@/app/components/Navbar";
 
 type UserData = { name: string | null; email: string | null; customerType: "NORMAL" | "FOUNDER"; founderDiscount: string | null; coinBalance: number };
 type Referral = { active: boolean; code?: string; discountPercentage?: number; affiliateCommission?: number };
@@ -64,10 +64,10 @@ export default function CheckoutPage() {
     } catch { setError("Something went wrong. Please try again."); } finally { setSubmitting(false); }
   }
 
-  if (items.length === 0) return <main className="min-h-screen bg-espresso text-offwhite"><StoreNavbar /><div className="mx-auto max-w-3xl px-5 py-24 text-center"><p className="text-xs uppercase tracking-[.25em] text-gold">Checkout</p><h1 className="mt-4 font-playfair text-5xl">Your cart is empty.</h1><Link href="/products" className="mt-8 inline-block border border-gold px-7 py-3 text-xs uppercase tracking-widest text-gold">Continue Shopping</Link></div></main>;
-  if (loadingUser) return <main className="min-h-screen bg-espresso text-offwhite"><StoreNavbar /><div className="flex min-h-[70vh] items-center justify-center text-warmgrey">Loading checkout...</div></main>;
+  if (items.length === 0) return <main className="min-h-screen bg-espresso text-offwhite"><Navbar isAuthenticated={!!user} isFounder={user?.customerType === "FOUNDER"} /><div className="mx-auto max-w-3xl px-5 py-24 text-center"><p className="text-xs uppercase tracking-[.25em] text-gold">Checkout</p><h1 className="mt-4 font-playfair text-5xl">Your cart is empty.</h1><Link href="/products" className="mt-8 inline-block border border-gold px-7 py-3 text-xs uppercase tracking-widest text-gold">Continue Shopping</Link></div></main>;
+  if (loadingUser) return <main className="min-h-screen bg-espresso text-offwhite"><Navbar /><div className="flex min-h-[70vh] items-center justify-center text-warmgrey">Loading checkout...</div></main>;
 
-  return <main className="min-h-screen bg-espresso text-offwhite"><StoreNavbar /><div className="mx-auto max-w-7xl px-5 py-10 sm:px-8 lg:py-14">
+  return <main className="min-h-screen bg-espresso text-offwhite"><Navbar isAuthenticated isFounder={user?.customerType === "FOUNDER"} /><div className="mx-auto max-w-7xl px-5 py-10 sm:px-8 lg:py-14">
     <div className="mb-10"><p className="text-xs uppercase tracking-[.25em] text-gold">Niivora / Checkout</p><h1 className="mt-3 font-playfair text-5xl sm:text-6xl">Complete your order.</h1><p className="mt-3 max-w-xl text-sm leading-6 text-warmgrey">Secure your essentials, apply a founder code if you have one, and choose your payment method.</p></div>
     <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
       <form onSubmit={handleSubmit} className="space-y-5">
