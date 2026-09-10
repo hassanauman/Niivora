@@ -5,17 +5,8 @@ import OurPromise from "./components/OurPromise";
 import Ingredients from "./components/Ingredients";
 import Ritual from "./components/Ritual";
 import FeaturedProduct from "./components/FeaturedProduct";
+import Footer from "./components/Footer";
 
 export default function Home() {
-  return (
-    <main>
-      <AnnouncementBar />
-      <Hero />
-      <Story />
-      <OurPromise />
-      <Ingredients />
-      <Ritual />
-      <FeaturedProduct />
-    </main>
-  );
+  return <main><AnnouncementBar /><Hero /><Story /><OurPromise /><Ingredients /><Ritual /><FeaturedProduct /><Footer /></main>;
 }
