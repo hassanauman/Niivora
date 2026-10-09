@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 declare global {
   interface Window {
@@ -12,7 +12,6 @@ declare global {
 
 export default function MetaPixel() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
@@ -32,7 +31,7 @@ export default function MetaPixel() {
     }
     window.fbq?.("init", pixelId);
     window.fbq?.("track", "PageView");
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   return null;
 }
