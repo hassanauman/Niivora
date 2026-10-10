@@ -1,4 +1,4 @@
-type OrderEmailItem = { name: string; variant: string; quantity: number; price: number };
+type OrderEmailItem = { name: string; variant: string | null; quantity: number; price: number };
 
 export async function sendOrderConfirmation(input: {
   to: string;
@@ -19,7 +19,7 @@ export async function sendOrderConfirmation(input: {
   const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://niivora.vercel.app")).replace(/\/$/, "");
   const trackingUrl = `${siteUrl}/orders/${encodeURIComponent(input.orderId)}`;
   const money = (amount: number) => `PKR ${amount.toLocaleString("en-PK", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-  const itemsHtml = input.items.map(item => `<tr><td style="padding:12px 0;border-bottom:1px solid #e8dfd2">${escapeHtml(item.name)}<br><span style="color:#887d70;font-size:12px">${escapeHtml(item.variant)} · Qty ${item.quantity}</span></td><td style="padding:12px 0;border-bottom:1px solid #e8dfd2;text-align:right;white-space:nowrap">${money(item.price * item.quantity)}</td></tr>`).join("");
+  const itemsHtml = input.items.map(item => `<tr><td style="padding:12px 0;border-bottom:1px solid #e8dfd2">${escapeHtml(item.name)}<br><span style="color:#887d70;font-size:12px">${escapeHtml(item.variant || "Standard")} · Qty ${item.quantity}</span></td><td style="padding:12px 0;border-bottom:1px solid #e8dfd2;text-align:right;white-space:nowrap">${money(item.price * item.quantity)}</td></tr>`).join("");
   const isEasypaisa = input.paymentMethod === "EASYPAISA";
   const paymentLabel = isEasypaisa ? "Manual Easypaisa transfer" : input.paymentMethod === "COINS" ? "Niivora Coins" : "Cash on Delivery";
   const paymentInstructions = isEasypaisa ? `<div style="margin-top:24px;padding:20px;background:#f8f1e5;border:1px solid #d6bd8b;border-radius:12px"><h2 style="margin:0 0 12px;color:#6e5126;font-size:18px">Complete your payment</h2><p style="margin:6px 0">Easypaisa account: <strong>03219977549</strong></p><p style="margin:6px 0">Account name: <strong>Muhammad Hassan Nauman</strong></p><p style="margin:12px 0 0">After transferring ${money(input.total)}, send a screenshot of the transaction to WhatsApp <strong>03219977549</strong> and include order number <strong>${input.orderNumber}</strong>.</p></div>` : "";
