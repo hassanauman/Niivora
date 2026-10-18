@@ -124,7 +124,7 @@ export default async function AdminOrdersPage() {
 
                                   <span>•</span>
 
-                                  <span>${Number(item.price).toFixed(2)}</span>
+                                  <span>PKR {Number(item.price).toFixed(2)}</span>
                                 </div>
                               </div>
                             ))}
@@ -137,7 +137,7 @@ export default async function AdminOrdersPage() {
 
                         <td className="px-6 py-5">
                           <p className="font-semibold">
-                            ${Number(order.total).toFixed(2)}
+                            PKR {Number(order.total).toFixed(2)}
                           </p>
                         </td>
 

@@ -16,6 +16,6 @@ If the Resend variables are not configured, orders still place normally and the 
 
 Set `NEXT_PUBLIC_META_PIXEL_ID` in Vercel when the Pixel/Dataset has been created in Meta Events Manager. Leave it unset until then. The Pixel is disabled when no ID is configured.
 
-## Manual Easypaisa
+## Bank transfer
 
-Manual transfers are not automatically verified. Customers should transfer the displayed order total and send a screenshot with the order number to WhatsApp 03219977549. Admin must verify the transaction before marking payment as PAID. The Easypaisa account is configured in the checkout/order instructions.
+Manual transfers are not automatically verified. Customers should transfer the displayed order total and send a screenshot with the order number to WhatsApp 03219977549. Admin must verify the transaction before marking payment as PAID. The bank account is configured in the checkout/order instructions.

@@ -118,12 +118,12 @@ export default async function AdminOrderDetailsPage({ params }: PageProps) {
                       )}
 
                       <p className="mt-2 text-sm text-gray-500">
-                        ${Number(item.price).toFixed(2)} × {item.quantity}
+                        PKR {Number(item.price).toFixed(2)} × {item.quantity}
                       </p>
                     </div>
 
                     <p className="font-semibold">
-                      ${(Number(item.price) * item.quantity).toFixed(2)}
+                      PKR {(Number(item.price) * item.quantity).toFixed(2)}
                     </p>
                   </div>
                 ))}
@@ -137,17 +137,17 @@ export default async function AdminOrderDetailsPage({ params }: PageProps) {
               <div className="space-y-4">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-500">Subtotal</span>
-                  <span>${Number(order.subtotal).toFixed(2)}</span>
+                  <span>PKR {Number(order.subtotal).toFixed(2)}</span>
                 </div>
 
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-500">Discount</span>
-                  <span>-${Number(order.discount).toFixed(2)}</span>
+                  <span>-PKR {Number(order.discount).toFixed(2)}</span>
                 </div>
 
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-500">Shipping</span>
-                  <span>${Number(order.shippingCost).toFixed(2)}</span>
+                  <span>PKR {Number(order.shippingCost).toFixed(2)}</span>
                 </div>
 
                 <div className="border-t pt-4">
@@ -155,7 +155,7 @@ export default async function AdminOrderDetailsPage({ params }: PageProps) {
                     <span className="font-semibold">Total</span>
 
                     <span className="text-xl font-bold">
-                      ${Number(order.total).toFixed(2)}
+                      PKR {Number(order.total).toFixed(2)}
                     </span>
                   </div>
                 </div>

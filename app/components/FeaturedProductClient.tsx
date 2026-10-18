@@ -148,7 +148,7 @@ export default function FeaturedProductClient({
 
           {selectedVariant && (
             <p className="mb-4 text-lg font-semibold text-charcoal">
-              Rs. {selectedVariant.price.toLocaleString()}.00
+              PKR {selectedVariant.price.toLocaleString()}.00
             </p>
           )}
 
