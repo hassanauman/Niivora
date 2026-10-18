@@ -49,7 +49,7 @@ export default function Ingredients() {
           </p>
 
           <p className="mb-8 max-w-xs text-sm font-medium text-charcoal md:text-base">
-            Every drop of Nevora Hair Oil is crafted with time-tested
+            Every drop of NIIVORA Hair Oil is crafted with time-tested
             ingredients known for their hair loving properties.
           </p>
 
