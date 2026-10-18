@@ -91,7 +91,7 @@ export default async function AdminProductsPage() {
                               <div className="font-medium">{variant.name}</div>
 
                               <div className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-500">
-                                <span>${Number(variant.price).toFixed(2)}</span>
+                                <span>PKR {Number(variant.price).toFixed(2)}</span>
 
                                 <span>Stock: {variant.stock}</span>
 
