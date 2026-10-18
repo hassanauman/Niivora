@@ -156,7 +156,7 @@ export default async function AdminPage() {
                       </div>
                       <div className="text-right">
                         <p className="font-medium">
-                          From PKR ${lowestPrice.toFixed(2)}
+                          From PKR {lowestPrice.toFixed(2)}
                         </p>
                         <p className="mt-1 text-sm text-gray-500">
                           {totalStock} total in stock
