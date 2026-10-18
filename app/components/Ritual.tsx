@@ -27,7 +27,7 @@ export default function Ritual() {
         {/* Top — heading block */}
         <div className="max-w-md font-jost">
           <p className="mb-3 text-[11px] uppercase tracking-[0.2em] text-gold sm:mb-4 sm:text-xs">
-            The Nevora Ritual
+            The NIIVORA Ritual
           </p>
 
           <h2 className="mb-4 font-serif text-2xl leading-tight text-offwhite sm:mb-6 sm:text-3xl md:text-4xl">
