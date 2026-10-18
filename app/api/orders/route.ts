@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { sendOrderConfirmation } from "@/lib/order-email";
 
 type OrderItemInput = { id: string; variantId: string; quantity: number };
 type OrderRequestBody = { items: OrderItemInput[]; customerName: string; customerEmail: string; shippingAddress: string; shippingCity: string; shippingPostalCode?: string; paymentMethod?: string };
@@ -20,7 +21,7 @@ export async function POST(request: Request) {
     const paymentMethod = typeof body.paymentMethod === "string" ? body.paymentMethod.trim() : "";
     if (!items.length) return NextResponse.json({ error: "Your cart is empty." }, { status: 400 });
     if (!customerName || !customerEmail || !shippingAddress || !shippingCity) return NextResponse.json({ error: "Please complete all required customer and shipping fields." }, { status: 400 });
-    if (!["COD", "COINS"].includes(paymentMethod)) return NextResponse.json({ error: "Invalid payment method." }, { status: 400 });
+    if (!["COD", "COINS", "EASYPAISA"].includes(paymentMethod)) return NextResponse.json({ error: "Invalid payment method." }, { status: 400 });
     for (const item of items) if (typeof item.id !== "string" || typeof item.variantId !== "string" || !item.variantId || !Number.isInteger(item.quantity) || item.quantity <= 0) return NextResponse.json({ error: "Invalid cart item." }, { status: 400 });
 
     const user = await prisma.user.findUnique({ where: { id: session.user.id }, select: { customerType: true, founderDiscount: true } });
@@ -85,7 +86,13 @@ export async function POST(request: Request) {
       if (paymentMethod === "COINS" && total > 0) await tx.coinTransaction.create({ data: { userId: session.user.id, amount: (-total).toFixed(2), type: "PURCHASE", description: `Purchase using Niivora Coins for order ${createdOrder.id}`, orderId: createdOrder.id } });
       return createdOrder;
     }, { isolationLevel: "Serializable" });
-    return NextResponse.json({ message: "Order created successfully.", orderId: result.id }, { status: 201 });
+    const orderNumber = `NIV-${result.id.slice(-8).toUpperCase()}`;
+    const emailSent = await sendOrderConfirmation({
+      to: customerEmail, customerName, orderNumber, orderId: result.id,
+      total: Number(result.total), paymentMethod,
+      items: result.items.map(item => ({ name: item.productName, variant: item.variantName, quantity: item.quantity, price: Number(item.price) })),
+    }).catch(error => { console.error("ORDER CONFIRMATION EMAIL ERROR:", error); return false; });
+    return NextResponse.json({ message: "Order created successfully.", orderId: result.id, orderNumber, emailSent }, { status: 201 });
   } catch (error) {
     console.error("ORDER CREATION ERROR:", error);
     return NextResponse.json({ error: error instanceof Error ? error.message : "Something went wrong while creating the order." }, { status: 500 });

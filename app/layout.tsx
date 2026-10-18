@@ -1,6 +1,7 @@
 import { Jost, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "./context/CartContext";
+import MetaPixel from "./components/MetaPixel";
 
 const jost = Jost({
   subsets: ["latin"],
@@ -22,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${jost.variable} ${playfair.variable}`}>
       <body>
-        <CartProvider>{children}</CartProvider>
+        <CartProvider><MetaPixel />{children}</CartProvider>
       </body>
     </html>
   );
