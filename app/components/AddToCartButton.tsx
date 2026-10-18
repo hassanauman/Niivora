@@ -85,7 +85,7 @@ export default function AddToCartButton({
       {selectedVariant && (
         <div className="mt-5">
           <span className="text-2xl font-semibold">
-            ${selectedVariant.price.toFixed(2)}
+            PKR {selectedVariant.price.toFixed(2)}
           </span>
         </div>
       )}
