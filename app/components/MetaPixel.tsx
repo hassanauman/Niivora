@@ -23,7 +23,7 @@ export default function MetaPixel() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+    const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID || "2299914977471011";
     if (!pixelId) return;
 
     if (!window.fbq) {
