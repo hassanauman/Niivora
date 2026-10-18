@@ -10,7 +10,7 @@ export default function Story() {
         <div className="relative h-87.5 sm:h-112.5 lg:h-auto">
           <Image
             src={Mother}
-            alt="Woman with long hair by a window, embodying the Nevora ritual"
+            alt="Woman with long hair by a window, embodying the NIIVORA ritual"
             fill
             className="object-cover"
             priority
@@ -20,7 +20,7 @@ export default function Story() {
         {/* Right — text panel */}
         <div className="relative flex flex-col justify-center overflow-hidden px-6 py-12 font-jost sm:px-10 sm:py-16 md:px-16 md:py-20">
           <p className="mb-3 text-[11px] uppercase tracking-[0.2em] text-gold sm:mb-4 sm:text-xs">
-            The Nevora Story
+            The NIIVORA Story
           </p>
 
           <h2 className="mb-4 max-w-md font-serif text-2xl leading-tight text-charcoal sm:mb-6 sm:text-3xl md:text-4xl">
@@ -28,7 +28,7 @@ export default function Story() {
           </h2>
 
           <p className="mb-3 max-w-sm text-sm text-charcoal/80 sm:mb-4 md:text-base">
-            Nevora began with a simple belief — the best care comes from nature
+            NIIVORA began with a simple belief — the best care comes from nature
             and love.
           </p>
 
