@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     const paymentMethod = typeof body.paymentMethod === "string" ? body.paymentMethod.trim() : "";
     if (!items.length) return NextResponse.json({ error: "Your cart is empty." }, { status: 400 });
     if (!customerName || !customerEmail || !shippingAddress || !shippingCity) return NextResponse.json({ error: "Please complete all required customer and shipping fields." }, { status: 400 });
-    if (!["COD", "COINS", "EASYPAISA"].includes(paymentMethod)) return NextResponse.json({ error: "Invalid payment method." }, { status: 400 });
+    if (!["BANK_TRANSFER", "COINS"].includes(paymentMethod)) return NextResponse.json({ error: "Invalid payment method." }, { status: 400 });
     for (const item of items) if (typeof item.id !== "string" || typeof item.variantId !== "string" || !item.variantId || !Number.isInteger(item.quantity) || item.quantity <= 0) return NextResponse.json({ error: "Invalid cart item." }, { status: 400 });
 
     const user = await prisma.user.findUnique({ where: { id: session.user.id }, select: { customerType: true, founderDiscount: true } });
