@@ -1,30 +1,14 @@
 import Link from "next/link";
-import { Play, Leaf, Rabbit, Droplet, FlaskConical } from "lucide-react";
+import { Play, Leaf, Droplet, FlaskConical, MapPin } from "lucide-react";
 
 import HeroImg from "@/public/images/hero.webp";
 import SiteHeader from "@/app/components/SiteHeader";
 
 const FEATURES = [
-  {
-    label: "leaf",
-    icon: <Leaf className="text-gold" strokeWidth={1.5} />,
-    text: "100% Natural",
-  },
-  {
-    label: "rabbit",
-    icon: <Rabbit className="text-gold" strokeWidth={1.5} />,
-    text: "Cruelty Free",
-  },
-  {
-    label: "droplet",
-    icon: <Droplet className="text-gold" strokeWidth={1.5} />,
-    text: "For All Hair Types",
-  },
-  {
-    label: "flask-conical",
-    icon: <FlaskConical className="text-gold" strokeWidth={1.5} />,
-    text: "Toxin Free",
-  },
+  { label: "botanical", icon: <Leaf className="text-gold" strokeWidth={1.5} />, text: "Botanical Blend" },
+  { label: "routine", icon: <Droplet className="text-gold" strokeWidth={1.5} />, text: "Hair Care Ritual" },
+  { label: "vitamin-e", icon: <FlaskConical className="text-gold" strokeWidth={1.5} />, text: "Vitamin E" },
+  { label: "made-in-pakistan", icon: <MapPin className="text-gold" strokeWidth={1.5} />, text: "Made in Pakistan" },
 ];
 
 export default function Hero() {
@@ -34,37 +18,29 @@ export default function Hero() {
       style={{ backgroundImage: `url(${HeroImg.src})` }}
     >
       <SiteHeader />
-
       <section
         id="home"
         className="flex flex-col gap-25 px-5 pt-14 font-jost text-offwhite lg:px-20"
       >
         <div className="flex flex-col gap-2">
           <p className="text-xs font-medium uppercase tracking-widest text-gold">
-            Rooted in nature. Backed by science.
+            Thoughtfully blended for your hair-care routine
           </p>
-
           <h1 className="mb-4 flex flex-col gap-1 font-playfair text-4xl tracking-wide sm:text-5xl md:text-7xl">
-            <span className="text-offwhite">Stronger Roots.</span>
-            <span className="text-gold">Healthier You.</span>
+            <span className="text-offwhite">A Ritual for</span>
+            <span className="text-gold">Your Hair.</span>
           </h1>
-
-          <p className="font-light">
-            A premium blend of black seed oil and potent
-            <br />
-            botanicals to strengthen, nourish and
-            <br />
-            revive your hair naturally.
+          <p className="max-w-lg font-light">
+            A considered blend featuring black seed oil, jojoba oil, rosemary
+            oil, and vitamin E, made to be part of your hair-care routine.
           </p>
-
           <div className="mt-5 flex gap-5">
             <Link
               href="/products"
-              className="bg-gold px-5 py-2 text-sm font-medium uppercase leading-7 text-charcoal border border-gold transition-all duration-200 hover:scale-105 hover:bg-bronze"
+              className="border border-gold bg-gold px-5 py-2 text-sm font-medium uppercase leading-7 text-charcoal transition-all duration-200 hover:scale-105 hover:bg-bronze"
             >
-              Shop Now
+              Explore the Collection
             </Link>
-
             <Link
               href="#our-story"
               className="flex items-center gap-5 border border-gold bg-transparent px-5 py-2 text-sm uppercase leading-7 text-offwhite transition-all duration-200 hover:scale-105 hover:bg-espresso"
@@ -76,17 +52,11 @@ export default function Hero() {
             </Link>
           </div>
         </div>
-
-        <div className="flex gap-5">
+        <div className="flex flex-wrap gap-5">
           {FEATURES.map((feature) => (
-            <div
-              key={feature.label}
-              className="flex flex-col items-center gap-1"
-            >
+            <div key={feature.label} className="flex flex-col items-center gap-1">
               {feature.icon}
-              <span className="max-w-18 text-center text-xs uppercase">
-                {feature.text}
-              </span>
+              <span className="max-w-24 text-center text-xs uppercase">{feature.text}</span>
             </div>
           ))}
         </div>
