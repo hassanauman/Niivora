@@ -8,8 +8,8 @@ import { useCart } from "@/app/context/CartContext";
 type NavbarProps = { isAuthenticated?: boolean; isAdmin?: boolean; isFounder?: boolean };
 const BRAND_NAME = "Niivora";
 const NAV_LINKS = [
-  { label: "Home", href: "/" }, { label: "Our Story", href: "/#our-story" }, { label: "Shop", href: "/products" },
-  { label: "Ingredients", href: "/#ingredients" }, { label: "Reviews", href: "/#reviews" }, { label: "Journal", href: "/#journal" },
+  { label: "Home", href: "/" },
+  { label: "Shop", href: "/products" },
 ];
 
 export default function Navbar({ isAuthenticated = false, isAdmin = false, isFounder = false }: NavbarProps) {
@@ -25,9 +25,6 @@ export default function Navbar({ isAuthenticated = false, isAdmin = false, isFou
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Use pointer events here rather than relying only on mouse events. This is more
-  // reliable across Safari's desktop click/event handling while preserving the
-  // outside-click behavior on other browsers.
   useEffect(() => {
     const handleOutsidePointer = (event: PointerEvent) => {
       if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
