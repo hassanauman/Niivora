@@ -16,7 +16,9 @@ export default async function ProductPage({
     include: { variants: { orderBy: { createdAt: "asc" } } },
   });
 
-  if (!product || !product.active || product.variants.length === 0) notFound();
+  // A product can exist before its variants are configured. Keep its detail page
+  // accessible; only missing or inactive products should return a 404.
+  if (!product || !product.active) notFound();
 
   return (
     <main className="min-h-screen bg-espresso text-offwhite">
@@ -41,16 +43,22 @@ export default async function ProductPage({
             )}
             <h1 className="mt-3 font-playfair text-5xl sm:text-6xl">{product.name}</h1>
             <div className="mt-7">
-              <AddToCartButton
-                product={{ id: product.id, name: product.name, slug: product.slug, image: product.image }}
-                variants={product.variants.map((variant) => ({
-                  id: variant.id,
-                  name: variant.name,
-                  price: Number(variant.price),
-                  stock: variant.stock,
-                  sku: variant.sku,
-                }))}
-              />
+              {product.variants.length > 0 ? (
+                <AddToCartButton
+                  product={{ id: product.id, name: product.name, slug: product.slug, image: product.image }}
+                  variants={product.variants.map((variant) => ({
+                    id: variant.id,
+                    name: variant.name,
+                    price: Number(variant.price),
+                    stock: variant.stock,
+                    sku: variant.sku,
+                  }))}
+                />
+              ) : (
+                <p className="rounded-xl border border-bronze/30 p-4 text-sm text-warmgrey">
+                  This product is being prepared and is not available to purchase yet.
+                </p>
+              )}
             </div>
             {product.description && (
               <div className="mt-10 border-t border-bronze/30 pt-7">
