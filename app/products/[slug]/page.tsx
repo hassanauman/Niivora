@@ -11,8 +11,22 @@ export default async function ProductPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = await prisma.product.findUnique({
-    where: { slug },
+  // Support both canonical slugs and older product URLs built from product names.
+  const normalizedSlug = slug
+    .normalize("NFKD")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  const product = await prisma.product.findFirst({
+    where: {
+      OR: [
+        { slug },
+        { slug: normalizedSlug },
+        { name: { equals: slug, mode: "insensitive" } },
+      ],
+    },
     include: { variants: { orderBy: { createdAt: "asc" } } },
   });
 
