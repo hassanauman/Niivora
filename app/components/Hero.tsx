@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Play, Leaf, Droplet, FlaskConical, MapPin } from "lucide-react";
 
-import HeroImg from "@/public/images/hero.webp";
+import Image from "next/image";
 import SiteHeader from "@/app/components/SiteHeader";
 
 const FEATURES = [
@@ -13,10 +13,34 @@ const FEATURES = [
 
 export default function Hero() {
   return (
-    <div
-      className="h-[calc(100dvh-38px)] w-full bg-cover bg-position-[-430px] sm:bg-top"
-      style={{ backgroundImage: `url(${HeroImg.src})` }}
-    >
+    <div className="relative h-[calc(100svh-38px)] w-full overflow-hidden">
+      <div className="absolute inset-0 -z-0">
+        <Image
+          src="/images/hero-mobile.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center md:hidden"
+        />
+        <Image
+          src="/images/hero-tablet.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="hidden object-cover object-center md:block lg:hidden"
+        />
+        <Image
+          src="/images/hero-desktop.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="hidden object-cover object-center lg:block"
+        />
+      </div>
+      <div className="relative z-10 h-full">
       <SiteHeader />
       <section
         id="home"
@@ -61,6 +85,7 @@ export default function Hero() {
           ))}
         </div>
       </section>
+      </div>
     </div>
   );
 }
