@@ -1,7 +1,9 @@
 import Image, { StaticImageData } from "next/image";
 
 import BlackSeedOil from "@/public/images/black-seed-oil.webp";
+import JojobaOil from "@/public/images/jojoba-oil.webp";
 import RosemaryOil from "@/public/images/rosemary-oil.webp";
+import VitaminE from "@/public/images/vitamin-e.webp";
 
 type Ingredient = {
   image?: StaticImageData;
@@ -16,6 +18,7 @@ const INGREDIENTS: Ingredient[] = [
     description: "A key oil in the NIIVORA blend.",
   },
   {
+    image: JojobaOil,
     name: "Jojoba Oil",
     description: "Included as part of the established formula.",
   },
@@ -25,6 +28,7 @@ const INGREDIENTS: Ingredient[] = [
     description: "A botanical oil included in the blend.",
   },
   {
+    image: VitaminE,
     name: "Vitamin E",
     description: "Included in the formula as an antioxidant ingredient.",
   },
