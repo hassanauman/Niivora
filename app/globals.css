@@ -15,3 +15,47 @@
   --color-warmgrey: #9c8f7c;
   --color-sage: #7c8468;
 }
+
+/* NIIVORA order receipt: screen-hidden, print-first and printer friendly. */
+.print-receipt { display: none; }
+@page { size: A4; margin: 14mm; }
+@media print {
+  html, body { background: #fff !important; color: #111 !important; }
+  body * { visibility: hidden !important; }
+  .print-receipt, .print-receipt * { visibility: visible !important; }
+  .print-receipt { display: block !important; position: absolute; inset: 0 auto auto 0; width: 100%; color: #111 !important; background: #fff !important; font-family: Georgia, "Times New Roman", serif; font-size: 10pt; line-height: 1.4; -webkit-print-color-adjust: economy; print-color-adjust: economy; }
+  .print-receipt * { box-shadow: none !important; text-shadow: none !important; }
+  .receipt-header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #999; padding-bottom: 12px; }
+  .receipt-brand { margin: 0; font-size: 27pt; letter-spacing: .22em; color: #8d713e !important; }
+  .receipt-tagline { margin: 3px 0 0; font: 7pt Arial, sans-serif; letter-spacing: .2em; }
+  .receipt-motto { margin: 4px 0; text-align: right; font-size: 8pt; letter-spacing: .12em; line-height: 1.7; }
+  .receipt-title { margin: 20px 0 16px; text-align: center; font-size: 25pt; font-weight: normal; letter-spacing: .12em; text-transform: uppercase; }
+  .receipt-meta { display: grid; grid-template-columns: 1.2fr 1fr 1fr; border-bottom: 1px solid #999; padding: 0 0 14px; gap: 14px; }
+  .receipt-meta > div { display: flex; flex-direction: column; gap: 5px; }
+  .receipt-meta span, .receipt-addresses section > span, .receipt-payment span { font: 7.5pt Arial, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #555; }
+  .receipt-meta strong { font-size: 13pt; font-weight: normal; }
+  .receipt-paid, .receipt-unpaid { color: #111 !important; }
+  .receipt-addresses { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 16px 0; border-bottom: 1px solid #999; }
+  .receipt-addresses section + section { border-left: 1px solid #bbb; padding-left: 24px; }
+  .receipt-addresses h2 { margin: 6px 0; font-size: 16pt; font-weight: normal; }
+  .receipt-addresses p { margin: 3px 0; overflow-wrap: anywhere; }
+  .receipt-items { width: 100%; border-collapse: collapse; margin-top: 14px; }
+  .receipt-items th { padding: 8px 5px; border-bottom: 1px solid #999; text-align: left; font: 7.5pt Arial, sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+  .receipt-items th:not(:first-child), .receipt-items td:not(:first-child) { text-align: right; white-space: nowrap; }
+  .receipt-items td { padding: 12px 5px; border-bottom: 1px solid #ddd; vertical-align: top; }
+  .receipt-items td:first-child { width: 48%; }
+  .receipt-items td strong, .receipt-items td small { display: block; white-space: normal; }
+  .receipt-items td strong { font-size: 11pt; font-weight: normal; }
+  .receipt-items td small { margin-top: 3px; font-size: 9pt; color: #444; }
+  .receipt-totals { width: 55%; margin: 14px 0 0 auto; }
+  .receipt-totals > div { display: flex; justify-content: space-between; gap: 15px; padding: 4px 0; }
+  .receipt-grand-total { margin-top: 6px; padding: 10px 0 !important; border-top: 1px solid #999; border-bottom: 1px solid #999; font-size: 14pt; }
+  .receipt-grand-total strong:last-child { color: #8d713e !important; }
+  .receipt-payment { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; border-bottom: 1px solid #999; padding: 14px 0; }
+  .receipt-payment p { margin: 5px 0 0; }
+  .receipt-footer { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; padding-top: 16px; }
+  .receipt-footer h2 { margin: 0 0 5px; color: #8d713e !important; font-size: 23pt; font-style: italic; font-weight: normal; }
+  .receipt-footer p { margin: 0; font-size: 9pt; color: #444; }
+  .receipt-footer a { color: #111 !important; text-decoration: none; font: 8pt Arial, sans-serif; letter-spacing: .18em; }
+  tr, .receipt-addresses, .receipt-totals, .receipt-payment, .receipt-footer { break-inside: avoid; }
+}
