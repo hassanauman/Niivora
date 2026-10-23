@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Banknote, Minus, Plus, Truck } from "lucide-react";
+import { Banknote, Minus, Plus, Truck, ShoppingBag } from "lucide-react";
 import { useCart } from "@/app/context/CartContext";
 
 type Variant = {
@@ -102,7 +102,7 @@ export default function FeaturedProductClient({ product }: FeaturedProductClient
               <span className="w-8 text-center text-sm text-charcoal">{quantity}</span>
               <button type="button" onClick={() => selectedVariant && setQuantity((current) => Math.min(selectedVariant.stock, current + 1))} disabled={isOutOfStock || !selectedVariant || quantity >= selectedVariant.stock} className="flex h-11 w-9 items-center justify-center text-charcoal disabled:opacity-30" aria-label="Increase quantity"><Plus size={14} /></button>
             </div>
-            <button type="button" onClick={addSelectedToCart} disabled={isOutOfStock} className="flex-1 bg-gold text-xs uppercase tracking-widest text-espresso disabled:opacity-40">{isOutOfStock ? "Out of Stock" : "Add to Cart"}</button>
+            <button type="button" onClick={addSelectedToCart} disabled={isOutOfStock} className="flex min-h-11 flex-1 items-center justify-center gap-2 bg-gold px-4 text-xs font-semibold uppercase tracking-widest text-espresso shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-bronze hover:shadow-lg active:translate-y-0 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none">{isOutOfStock ? "Out of Stock" : <><ShoppingBag size={16} /> Add to Cart</>}</button>
           </div>
           <button type="button" onClick={() => { addSelectedToCart(); if (selectedVariant && !isOutOfStock) window.location.href = "/checkout"; }} disabled={isOutOfStock} className="w-full bg-espresso py-3 text-xs uppercase tracking-widest text-offwhite disabled:opacity-40">Buy It Now</button>
           <div className="flex flex-col gap-3 pt-2">
