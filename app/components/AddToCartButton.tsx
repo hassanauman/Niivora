@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { ShoppingBag } from "lucide-react";
 import { useCart } from "@/app/context/CartContext";
 
 type Variant = {
@@ -107,9 +108,9 @@ export default function AddToCartButton({
         type="button"
         onClick={handleAddToCart}
         disabled={isOutOfStock}
-        className="mt-6 w-full rounded-xl bg-black px-6 py-4 font-medium text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:bg-gray-300"
+        className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-gold px-6 py-4 font-semibold uppercase tracking-widest text-espresso shadow-md transition duration-200 hover:-translate-y-0.5 hover:bg-bronze hover:shadow-lg active:translate-y-0 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-600 disabled:shadow-none"
       >
-        {isOutOfStock ? "Out of Stock" : "Add to Cart"}
+        {isOutOfStock ? "Out of Stock" : <><ShoppingBag size={18} /> Add to Cart</>}
       </button>
     </div>
   );
